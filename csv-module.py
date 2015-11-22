@@ -4,10 +4,13 @@ import csv
 import os
 import subprocess
 import shutil
+import dropbox
 
 SRC_DIR = '\\Users\\Ben\\Desktop\\CITE\\Testing\\'
 Processed_MP4_Dir = '\\Users\\Ben\\Desktop\\CITE\\Processed_MP4\\'
 Processed_MP3_Dir = '\\Users\\Ben\\Desktop\\CITE\\Processed_MP3\\'
+
+DropBoxFile = '/Test-Uploads/'
 
 csv_file_name = 'testcsv.csv'
 Error = (0, 'No Errors')
@@ -41,7 +44,7 @@ with open(csv_file_name, newline='') as csvfile:
             command_output = subprocess.check_output(ffmpeg_convert_to_mp3_cmd, shell=True)
 
             if not os.path.exists(Processed_MP3_Dir):
-                os.makedirs(Processed_MP_Dir)
+                os.makedirs(Processed_MP3_Dir)
             '''
             Trim File according to csv specs
             '''
@@ -60,6 +63,22 @@ with open(csv_file_name, newline='') as csvfile:
                 os.makedirs(Processed_MP4_Dir)
 
             shutil.move(SRC_DIR + mp4_file_name, Processed_MP4_Dir + mp4_file_name)
+
+            '''
+            Time to upload da file to DB BABAY!!
+            '''
+
+            dbx = dropbox.Dropbox('')
+
+            upload_file = Processed_MP3_Dir + mp3_file_name
+
+            f = open(upload_file,'rb')
+
+            print(f)
+
+            dbx.files_upload(f,DropBoxFile + mp3_file_name)
+
+            print('File upload complete?')
 
         print(Error)
 
