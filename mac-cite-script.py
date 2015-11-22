@@ -45,12 +45,15 @@ with open(csv_file_name, newline='') as csvfile:
             # Run the command
             command_output = subprocess.check_output(ffmpeg_convert_to_mp3_cmd, shell=True)
 
+            
+            if not os.path.exists(Processed_MP3_Dir):
+                os.makedirs(Processed_MP_Dir)
 
             Trim File according to csv specs
 
             # Create the ffmpeg trim command string and moved processed MP3 file to 'Processed_MP3' directory
             trim_cmd = 'ffmpeg -ss ' + str(start_time) + ' -i ' + SRC_DIR + mp3_file_name + ' -t ' + str(
-                end_time) + ' ' + Processed_MP3 + mp3_file_name
+                end_time) + ' ' + Processed_MP3_Dir + mp3_file_name
 
             # Run the command
             trim_command_output = subprocess.check_output(trim_cmd, shell=True)

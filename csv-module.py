@@ -6,9 +6,8 @@ import subprocess
 import shutil
 
 SRC_DIR = '\\Users\\Ben\\Desktop\\CITE\\Testing\\'
-FINAL_DIR = '\\Users\\Ben\\Desktop\\CITE\\Testing_Trimed_Output\\'
 Processed_MP4_Dir = '\\Users\\Ben\\Desktop\\CITE\\Processed_MP4\\'
-Processed_MP3 = '\\Users\\Ben\\Desktop\\CITE\\Processed_MP3\\'
+Processed_MP3_Dir = '\\Users\\Ben\\Desktop\\CITE\\Processed_MP3\\'
 
 csv_file_name = 'testcsv.csv'
 Error = (0, 'No Errors')
@@ -41,12 +40,14 @@ with open(csv_file_name, newline='') as csvfile:
             # Run the command
             command_output = subprocess.check_output(ffmpeg_convert_to_mp3_cmd, shell=True)
 
+            if not os.path.exists(Processed_MP3_Dir):
+                os.makedirs(Processed_MP_Dir)
             '''
             Trim File according to csv specs
             '''
-            # Create the ffmpeg trim command string and moved processed MP3 file to 'Processed_MP3' directory
-            trim_cmd = 'ffmpeg -ss ' + str(start_time) + ' -i ' + SRC_DIR + mp3_file_name + ' -t ' + str(
-                end_time) + ' ' + Processed_MP3 + mp3_file_name
+            # Create the ffmpeg trim command string and moved processed MP3 file to 'Processed_MP3_Dir' directory
+            trim_cmd = 'ffmpeg -ss ' + str(start_time) + ' -i ' + SRC_DIR + mp3_file_name + ' -to ' + str(
+                end_time) + ' ' + Processed_MP3_Dir + mp3_file_name
 
             # Run the command
             trim_command_output = subprocess.check_output(trim_cmd, shell=True)
